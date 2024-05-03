@@ -1,7 +1,7 @@
 import { FunctionDeclarationSchemaType } from '@google/generative-ai';
 import { LocalIndex, LocalDocument } from 'vectra';
 import path from 'path';
-import { app } from 'electron';
+import { app, shell } from 'electron';
 
 import AI from '../ai';
 import { randomString } from '../util';
@@ -154,6 +154,7 @@ function scheduleRunner(){
           ],
           timestamp: new Date(),
         });
+        shell.beep();
       }
     }
   }, 30000);

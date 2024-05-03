@@ -1,4 +1,4 @@
-import { AIMessage } from "../..";
+import { AIMessage, AIMessageContent } from "../..";
 import GeminiAI from "./gemini";
 import VertexGeminiAI from "./vertex";
 
@@ -6,7 +6,7 @@ export interface AIHandler {
   init(history: AIMessage[]): void;
   embedText(text: string): Promise<number[]>;
   embedFile(file: Blob): Promise<number[]>;
-  sendMessage(text: string): Promise<AIMessage[]>;
+  sendMessage(coantent: AIMessageContent[]): Promise<AIMessage[]>;
 }
 
 // const CurrentAI = new GeminiAI('gemini-1.0-pro');

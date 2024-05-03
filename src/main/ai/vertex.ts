@@ -127,7 +127,8 @@ export default class VertexGeminiAI implements AIHandler {
     };
   }
 
-  async sendMessage(text: string): Promise<AIMessage[]> {
+  async sendMessage(content: AIMessageContent[]): Promise<AIMessage[]> {
+    console.log("SENDING MESS", content);
     const result: AIMessage[] = [];
     const genModel = this.genAI?.preview.getGenerativeModel({
       model: this.modelName,
@@ -158,9 +159,10 @@ export default class VertexGeminiAI implements AIHandler {
         parts: msg.content,
       })),
     });
-    let messageResult = await this.chat?.sendMessage(text);
+    console.log('SENDING MESSAGE', JSON.stringify(content, null, 2));
+    let messageResult = await this.chat?.sendMessage(content);
     if(!messageResult?.response.candidates){
-      messageResult = await this.chat?.sendMessage(text);
+      messageResult = await this.chat?.sendMessage(content);
     }
     console.log('MESSAGE RESULT 1', JSON.stringify(messageResult, null, 2));
     result.push({

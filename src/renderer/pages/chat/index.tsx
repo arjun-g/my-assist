@@ -52,9 +52,20 @@ function timeDisplay(datetime: string) {
   return dayjs(datetime).format('h:mm A');
 }
 
+function blobToBase64(blob) {
+  return new Promise((resolve, _) => {
+    const reader = new FileReader();
+    reader.onloadend = () => {
+      resolve(reader.result?.toString());
+    };
+    reader.readAsDataURL(blob);
+  });
+}
+
 export default function Chat() {
   const [messages, setMessages] = useState<AIMessage[]>([]);
   const [message, setMessage] = useState<string>('');
+  const [file, setFile] = useState<File | null>(null);
   useEffect(() => {
     window.electron.ipcRenderer.sendMessage('chat-list', {});
     window.electron.ipcRenderer.on('chat-list', (args) => {
@@ -97,9 +108,19 @@ export default function Chat() {
         })}
       </div>
       <div className={style.input}>
-        <button type="button" className="icon-button">
+        <label className="icon-button" htmlFor="upload">
           <AttachmentIcon />
-        </button>
+          <input
+            type="file"
+            style={{ opacity: 0, width: 0, display: 'none' }}
+            id="upload"
+            onChange={(e) => {
+              if (e.target.files && e.target.files.length > 0) {
+                setFile(e.target.files[0]);
+              }
+            }}
+          />
+        </label>
         <input
           type="text"
           placeholder="Type a message..."
@@ -107,10 +128,11 @@ export default function Chat() {
           onChange={(e) => {
             setMessage(e.target.value);
           }}
-          onKeyUp={(e) => {
+          onKeyUp={async (e) => {
             if (e.key === 'Enter') {
               window.electron.ipcRenderer.sendMessage('chat-message', {
                 message,
+                image: file && (await blobToBase64(file)),
               });
               setMessage('');
             }
@@ -119,9 +141,10 @@ export default function Chat() {
         <button
           type="button"
           className="icon-button"
-          onClick={() => {
+          onClick={async () => {
             window.electron.ipcRenderer.sendMessage('chat-message', {
               message,
+              image: file && (await blobToBase64(file)),
             });
             setMessage('');
           }}
