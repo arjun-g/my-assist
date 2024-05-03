@@ -1,0 +1,56 @@
+.settings{
+  padding: 16px;
+}
+
+.settings h2{
+  padding: 0;
+  margin: 0;
+  font-weight: 400;
+  margin-bottom: 8px;;
+}
+
+.section{
+  margin-bottom: 24px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 8px;
+}
+
+.section input, .section textarea{
+  padding: 8px;
+  border-radius: 8px;
+  font-size: 14px;
+}
+
+.section button{
+  padding: 8px 16px;
+  border-radius: 8px;
+  font-size: 14px;
+  background: #8980f7;
+  color: white;
+  border: none;
+  cursor: pointer;
+  justify-self: left;
+  width: max-content;
+}
+
+.function{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border: 1px solid #8980f7;
+  padding: 8px 16px;
+}
+
+.function h3{
+  padding: 0;
+  margin: 0;
+  font-weight: 400;
+  font-size: 16px;
+}
+
+.function button{
+  cursor: pointer;
+  background: red;
+}
